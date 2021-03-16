@@ -1,9 +1,17 @@
 const User = require("../models/user.model");
 
 exports.create_new_user = (req, res) => {
-  res.send("Placeholder post new user");
+  const user = new User({
+    username: req.body.username,
+  });
+
+  user.save((err, result) => {
+    res.send(result);
+  });
 };
 
 exports.get_all_users = (req, res) => {
-  res.send("Placeholder get all users");
+  User.find((err, result) => {
+    res.send(result);
+  });
 };
