@@ -31,6 +31,11 @@ exports.add_exercise = (req, res) => {
 
 exports.log_exercise = (req, res) => {
   let limitting = parseInt(req.query.limit) || 0;
+  
+  if (req.query.userId == undefined){
+    res.status(400).send({"message": "cannot parse user id"})
+    return
+  }
 
   async.parallel(
     {
@@ -58,6 +63,10 @@ exports.log_exercise = (req, res) => {
       },
     },
     (err, results) => {
+      if(err){
+        res.status(500).send({"message": err})
+        return 
+      }
       let log = results.exercises.map((exercise) => {
         return {
           description: exercise.description,
